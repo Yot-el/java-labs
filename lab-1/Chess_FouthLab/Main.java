@@ -39,6 +39,7 @@ public class Main {
             System.out.println(e.getMessage());
 
             if (e.getClass().getSimpleName().equals("GameOverError")) {
+                board.print_board();
                 end_game();
             }
         } finally {
@@ -64,6 +65,7 @@ public class Main {
     }
 
     public static void end_game() {
+        System.out.println("");
         System.out.println("Игра завeршена.");
         in.close();
         System.exit(1);

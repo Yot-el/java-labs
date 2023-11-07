@@ -200,11 +200,11 @@ public class Board {
                     continue;
                 }
 
-                if (figure.getClass().getSimpleName().equals("Pawn") && figure.canAttack(i, j, kingRow, kingCol, this.fields[kingRow][kingCol])) {
+                if (figure.getClass().getSimpleName().equals("Pawn") && (Math.abs(i - kingRow) == 1 && Math.abs(j - kingCol) == 1)) { // && figure.canAttack(i, j, kingRow, kingCol, this.fields[kingRow][kingCol])
                     return true;
                 }
 
-                if (figure.canMove(i, j, kingRow, kingCol, fields) && figure.canAttack(i, j, kingRow, kingCol, this.fields[kingRow][kingCol])) {
+                if (figure.canMove(i, j, kingRow, kingCol, fields)) { // && figure.canAttack(i, j, kingRow, kingCol, this.fields[kingRow][kingCol])
                     return true;
                 }
             }
@@ -217,11 +217,10 @@ public class Board {
         // 1. проверка на то, может ли король сбежать(есть ли хоть одна позиция короля не под шахом)
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
-                if (kingRow + i > 8 || kingRow + i < 0 || kingCol + j > 8 || kingCol + j < 0) continue;
+                if (kingRow + i >= 8 || kingRow + i < 0 || kingCol + j >= 8 || kingCol + j < 0) continue;
                 if (i == 0 && j == 0) continue; // Уже проверяли ранее данную клетку
 
                 if (this.fields[kingRow + i][kingCol + j] == null && !(this.is_check(kingRow + i, kingCol + j, kingColor))) {
-                    System.out.printf("Координаты точки короля: %d %d", kingRow + i, kingCol + j);
                     return false;
                 }
             }
@@ -235,13 +234,16 @@ public class Board {
                     continue;
                 }
 
+                // Если при самостоятельном съедании вражеской фигуры Король все равно попадает под шах
+                if (figure.getClass().getSimpleName().equals("King") && this.is_check(row, col, kingColor)) {
+                    continue;
+                }
+
                 if (figure.getClass().getSimpleName().equals("Pawn") && figure.canAttack(i, j, row, col, this.fields[row][col])) {
-                    System.out.printf("Координаты точки крутой пешки: %d %d", i, j);
                     return false;
                 }
 
                 if (figure.canMove(i, j, row, col, this.fields) && figure.canAttack(i, j, row, col, this.fields[row][col])) {
-                    System.out.printf("Координаты точки крутой фигуры: %d %d", i, j);
                     return false;
                 }
             }
