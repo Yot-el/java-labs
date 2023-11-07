@@ -200,11 +200,11 @@ public class Board {
                     continue;
                 }
 
-                if (figure.getClass().getSimpleName().equals("Pawn") && (Math.abs(i - kingRow) == 1 && Math.abs(j - kingCol) == 1)) { // && figure.canAttack(i, j, kingRow, kingCol, this.fields[kingRow][kingCol])
+                if (figure.getClass().getSimpleName().equals("Pawn") && (Math.abs(i - kingRow) == 1 && Math.abs(j - kingCol) == 1)) {
                     return true;
                 }
 
-                if (figure.canMove(i, j, kingRow, kingCol, fields)) { // && figure.canAttack(i, j, kingRow, kingCol, this.fields[kingRow][kingCol])
+                if (figure.canMove(i, j, kingRow, kingCol, fields)) {
                     return true;
                 }
             }
